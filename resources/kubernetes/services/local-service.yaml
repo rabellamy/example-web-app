@@ -1,0 +1,24 @@
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: local-service
+  namespace: default
+  labels:
+    app: web
+spec:
+  ports:
+  - name: http
+    protocol: TCP
+    port: 80
+    targetPort: 8080
+  - name: db
+    protocol: TCP
+    port: 5432
+    targetPort: 5432
+  selector:
+    app: web
+  type: NodePort
+  sessionAffinity: None
+status:
+  loadBalancer: {}
