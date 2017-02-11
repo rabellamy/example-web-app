@@ -1,0 +1,29 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: local-deployment
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: web
+    spec:
+      containers:
+      - name: frank
+        image: rabellamy/buffalo:0.0.1
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 80
+      - name: postgres
+        image: rabellamy/postgres:0.0.1
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 5432
+        volumeMounts:
+        - name: postgresdata
+          mountPath: /usr/local/var/postgres
+      volumes:
+      - name: postgresdata
+        persistentVolumeClaim:
+          claimName: postgres-data
